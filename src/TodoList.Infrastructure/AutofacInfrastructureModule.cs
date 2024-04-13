@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Ardalis.SharedKernel;
+using Ardalis.Specification;
 using Autofac;
 using MediatR;
 using MediatR.Pipeline;
@@ -8,6 +9,7 @@ using TodoList.Core.Interfaces;
 using TodoList.Infrastructure.Data;
 using TodoList.Infrastructure.Data.Queries;
 using TodoList.Infrastructure.Email;
+using TodoList.UseCases.Cards.List;
 using TodoList.UseCases.Contributors.Create;
 using TodoList.UseCases.Contributors.List;
 using Module = Autofac.Module;
@@ -71,6 +73,7 @@ public class AutofacInfrastructureModule : Module
         builder.RegisterGeneric(typeof(EfRepository<>))
             .As(typeof(IRepository<>))
             .As(typeof(IReadRepository<>))
+            .As(typeof(IRepositoryBase<>))
             .InstancePerLifetimeScope();
     }
 
@@ -78,6 +81,10 @@ public class AutofacInfrastructureModule : Module
     {
         builder.RegisterType<ListContributorsQueryService>()
             .As<IListContributorsQueryService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<ListCardsQueryService>()
+            .As<IListCardsQueryService>()
             .InstancePerLifetimeScope();
     }
 

@@ -1,22 +1,18 @@
 ﻿using System.Reflection;
 using Ardalis.SharedKernel;
 using Microsoft.EntityFrameworkCore;
+using TodoList.Core.CardAggregate;
 using TodoList.Core.ContributorAggregate;
 
 namespace TodoList.Infrastructure.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(
+    DbContextOptions<AppDbContext> options,
+    IDomainEventDispatcher? dispatcher)
+    : DbContext(options)
 {
-    private readonly IDomainEventDispatcher? _dispatcher;
-
-    public AppDbContext(DbContextOptions<AppDbContext> options,
-        IDomainEventDispatcher? dispatcher)
-        : base(options)
-    {
-        _dispatcher = dispatcher;
-    }
-
     public DbSet<Contributor> Contributors => Set<Contributor>();
+    public DbSet<Card> Cards => Set<Card>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,7 +25,7 @@ public class AppDbContext : DbContext
         var result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         // ignore events if no dispatcher provided
-        if (_dispatcher == null)
+        if (dispatcher == null)
         {
             return result;
         }
@@ -40,7 +36,7 @@ public class AppDbContext : DbContext
             .Where(e => e.DomainEvents.Any())
             .ToArray();
 
-        await _dispatcher.DispatchAndClearEvents(entitiesWithEvents);
+        await dispatcher.DispatchAndClearEvents(entitiesWithEvents);
 
         return result;
     }

@@ -9,6 +9,13 @@ public class CreateCard(IMediator mediator) : Endpoint<CreateCardRequest, Create
     public override void Configure()
     {
         Post(CreateCardRequest.Route);
+        AllowAnonymous();
+        Summary(s =>
+        {
+            var withDataExample = new CreateCardRequest {Name = "My new card"};
+            s.RequestExamples.Add(new RequestExample(new CreateCardRequest(), "Empty request"));
+            s.RequestExamples.Add(new RequestExample(withDataExample, "With data request"));
+        });
     }
 
     public override async Task HandleAsync(
