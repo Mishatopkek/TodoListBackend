@@ -60,7 +60,10 @@ else
     app.UseHsts();
 }
 
-app.UseFastEndpoints();
+app.UseFastEndpoints(config =>
+{
+    config.Endpoints.RoutePrefix = "api";
+});
 app.UseSwaggerGen(); // FastEndpoints middleware
 
 app.UseHttpsRedirection();

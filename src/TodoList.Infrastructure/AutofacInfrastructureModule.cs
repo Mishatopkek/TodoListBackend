@@ -73,6 +73,7 @@ public class AutofacInfrastructureModule : Module
         builder.RegisterGeneric(typeof(EfRepository<>))
             .As(typeof(IRepository<>))
             .As(typeof(IReadRepository<>))
+            .As(typeof(IReadRepositoryBase<>))
             .As(typeof(IRepositoryBase<>))
             .InstancePerLifetimeScope();
     }
