@@ -10,6 +10,7 @@
                                                 <PackageReference Include="Autofac"/>
                                                 <PackageReference Include="MediatR"/>
                                                 <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
+                                                <PackageReference Include="Ulid"/>
                         </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using Ardalis.SharedKernel;
 
 namespace TodoList.Core.CardAggregate;
 
-public class Card(string name) : EntityBase, IAggregateRoot
+public class Card(string name) : EntityBase<Guid>, IAggregateRoot
 {
     public string Name { get; set; } = Guard.Against.NullOrEmpty(name, nameof(name));
 

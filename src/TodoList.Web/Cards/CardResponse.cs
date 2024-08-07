@@ -1,3 +1,3 @@
 ﻿namespace TodoList.Web.Cards;
 
-public record CardRecord(int Id, string Name);
+public record CardRecord(Ulid Id, string Name);

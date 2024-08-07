@@ -1,3 +1,3 @@
 ﻿namespace TodoList.UseCases.Cards;
 
-public record CardDto(int Id, string Name);
+public record CardDto(Ulid Id, string Name);

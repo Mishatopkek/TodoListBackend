@@ -3,6 +3,7 @@ using Ardalis.SharedKernel;
 using Ardalis.Specification;
 using TodoList.Core.CardAggregate;
 using TodoList.Core.CardAggregate.Specifications;
+using TodoList.Core.Extentions;
 
 namespace TodoList.UseCases.Cards.GetById;
 
@@ -17,6 +18,6 @@ public class GetByIdCardHandler(IReadRepositoryBase<Card> repository) : IQueryHa
             return Result.NotFound();
         }
 
-        return new CardDto(entity.Id, entity.Name);
+        return new CardDto(entity.Id.ToUlid(), entity.Name);
     }
 }
