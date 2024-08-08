@@ -2,7 +2,6 @@
 using FastEndpoints;
 using MediatR;
 using TodoList.UseCases.Users.Login;
-using TodoList.Web.Cards.Create;
 
 namespace TodoList.Web.Users.Login;
 
@@ -14,8 +13,11 @@ public class LoginUser(IMediator mediator) : Endpoint<LoginUserRequest, LoginUse
         AllowAnonymous();
         Summary(s =>
         {
-            var simpleCard = new CreateCardRequest {Name = "My new card"};
-            s.RequestExamples.Add(new RequestExample(simpleCard, "Simple card"));
+            var usernameExample = new LoginUserRequest {Login = "superuniquename", Password = "qwer1234asdf"};
+            s.RequestExamples.Add(new RequestExample(usernameExample, "User example"));
+
+            var emailExample = new LoginUserRequest {Login = "supername@gmail.com", Password = "qwer1234!@#$"};
+            s.RequestExamples.Add(new RequestExample(emailExample, "Another user example"));
         });
     }
 

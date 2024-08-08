@@ -6,6 +6,7 @@ using MediatR;
 using MediatR.Pipeline;
 using TodoList.Core.ContributorAggregate;
 using TodoList.Core.Interfaces;
+using TodoList.Core.Services;
 using TodoList.Infrastructure.Data;
 using TodoList.Infrastructure.Data.Queries;
 using TodoList.Infrastructure.Email;
@@ -66,6 +67,7 @@ public class AutofacInfrastructureModule : Module
         RegisterEF(builder);
         RegisterQueries(builder);
         RegisterMediatR(builder);
+        RegisterServices(builder);
     }
 
     private void RegisterEF(ContainerBuilder builder)
@@ -119,6 +121,14 @@ public class AutofacInfrastructureModule : Module
                 .AsClosedTypesOf(mediatrOpenType)
                 .AsImplementedInterfaces();
         }
+    }
+
+    private void RegisterServices(ContainerBuilder builder)
+    {
+        builder
+            .RegisterType(typeof(PasswordService))
+            .As(typeof(IPasswordService))
+            .InstancePerLifetimeScope();
     }
 
     private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
