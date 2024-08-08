@@ -70,7 +70,7 @@ app.UseHttpsRedirection();
 
 SeedDatabase(app);
 
-app.Run();
+await app.RunAsync();
 
 static void SeedDatabase(WebApplication app)
 {
@@ -87,7 +87,7 @@ static void SeedDatabase(WebApplication app)
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<TodoList.Web.Program>>();
-        logger.LogError(ex, "An error occurred seeding the DB. {exceptionMessage}", ex.Message);
+        logger.LogError(ex, "An error occurred seeding the DB. {ExceptionMessage}", ex.Message);
     }
 }
 
