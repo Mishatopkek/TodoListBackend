@@ -12,9 +12,9 @@ public class CreateCardHandler(IRepositoryBase<Card> repository)
     public async Task<Result<Ulid>> Handle(CreateCardCommand request,
         CancellationToken cancellationToken)
     {
-        var newContributor = new Card(request.Name);
-        var createdItem = await repository.AddAsync(newContributor, cancellationToken);
+        var newCard = new Card(request.Name);
+        var createdCard = await repository.AddAsync(newCard, cancellationToken);
 
-        return createdItem.Id.ToUlid();
+        return createdCard.Id.ToUlid();
     }
 }

@@ -12,9 +12,8 @@ public class CreateCard(IMediator mediator) : Endpoint<CreateCardRequest, Create
         AllowAnonymous();
         Summary(s =>
         {
-            var withDataExample = new CreateCardRequest {Name = "My new card"};
-            s.RequestExamples.Add(new RequestExample(new CreateCardRequest(), "Empty request"));
-            s.RequestExamples.Add(new RequestExample(withDataExample, "With data request"));
+            var simpleCard = new CreateCardRequest {Name = "My new card"};
+            s.RequestExamples.Add(new RequestExample(simpleCard, "Simple card"));
         });
     }
 
