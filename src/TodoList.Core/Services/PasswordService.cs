@@ -9,18 +9,24 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 namespace TodoList.Core.Services;
 
-public class PasswordService(string hardcodedSalt) : IPasswordService
+public class PasswordService(string salt) : IPasswordService
 {
     // Function to hash a password with a given salt using HMAC-SHA512
-    public byte[] HashPassword(string password, out byte[] passwordSalt)
+    public byte[] GenerateHash(string password, out byte[] passwordSalt)
     {
         using HMACSHA512 hmac = new();
 
-        var passwordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password + hardcodedSalt));
+        var passwordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password + salt));
 
         passwordSalt = hmac.Key;
 
         return passwordHashBytes;
+    }
+
+    public byte[] Hash(string password, byte[] salt)
+    {
+        using var hmac = new HMACSHA512(salt);
+        return hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
     }
 
     // Function to compare two byte arrays for equality

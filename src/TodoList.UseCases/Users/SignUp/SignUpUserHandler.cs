@@ -44,7 +44,7 @@ public class SignUpUserHandler(IRepository<User> repository, IPasswordService pa
     private User CreateUser(SignUpUserCommand request)
     {
         var id = Ulid.NewUlid().ToGuid();
-        var passwordHash = passwordService.HashPassword(request.Password, out var salt);
+        var passwordHash = passwordService.GenerateHash(request.Password, out var salt);
         return new User(id, request.Name, request.Email, "user", passwordHash, salt);
     }
 }

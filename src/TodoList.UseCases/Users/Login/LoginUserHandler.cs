@@ -21,7 +21,7 @@ public class LoginUserHandler(IRepositoryBase<User> repository, IPasswordService
         }
 
         var saltedRequestPassword = request.Password + Environment.GetEnvironmentVariable("PASSWORD_SALT_SECRET");
-        var enteredHashedPassword = passwordService.HashPassword(saltedRequestPassword, entity.PasswordSalt);
+        var enteredHashedPassword = passwordService.Hash(saltedRequestPassword, entity.PasswordSalt);
 
         var arePasswordsEqual = passwordService.ArePasswordsEqual(enteredHashedPassword, entity.Password);
 
