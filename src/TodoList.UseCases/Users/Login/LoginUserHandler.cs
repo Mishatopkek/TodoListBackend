@@ -20,8 +20,7 @@ public class LoginUserHandler(IRepositoryBase<User> repository, IPasswordService
             return Result.NotFound();
         }
 
-        var saltedRequestPassword = request.Password + Environment.GetEnvironmentVariable("PASSWORD_SALT_SECRET");
-        var enteredHashedPassword = passwordService.Hash(saltedRequestPassword, entity.PasswordSalt);
+        var enteredHashedPassword = passwordService.Hash(request.Password, entity.PasswordSalt);
 
         var arePasswordsEqual = passwordService.ArePasswordsEqual(enteredHashedPassword, entity.Password);
 

@@ -9,14 +9,14 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 namespace TodoList.Core.Services;
 
-public class PasswordService(string salt) : IPasswordService
+public class PasswordService(string constantSalt, string jwtSecret) : IPasswordService
 {
     // Function to hash a password with a given salt using HMAC-SHA512
     public byte[] GenerateHash(string password, out byte[] passwordSalt)
     {
         using HMACSHA512 hmac = new();
 
-        var passwordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password + salt));
+        var passwordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password + constantSalt));
 
         passwordSalt = hmac.Key;
 
@@ -26,7 +26,7 @@ public class PasswordService(string salt) : IPasswordService
     public byte[] Hash(string password, byte[] salt)
     {
         using var hmac = new HMACSHA512(salt);
-        return hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return hmac.ComputeHash(Encoding.UTF8.GetBytes(password + constantSalt));
     }
 
     // Function to compare two byte arrays for equality
@@ -48,14 +48,7 @@ public class PasswordService(string salt) : IPasswordService
 
     public string GenerateJwtToken(Guid userId, string username, string email, string role)
     {
-        // Define the security key
-        var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET");
-        if (string.IsNullOrEmpty(secretKey))
-        {
-            throw new ArgumentNullException(nameof(secretKey), "Jwt secret is not initialized");
-        }
-
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         // Define the claims

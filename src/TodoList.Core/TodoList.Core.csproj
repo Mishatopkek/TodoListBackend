@@ -8,6 +8,7 @@
                                                 <PackageReference Include="Ardalis.SmartEnum"/>
                                                 <PackageReference Include="Ardalis.Specification"/>
                                                 <PackageReference Include="Autofac"/>
+                                                <PackageReference Include="FastEndpoints"/>
                                                 <PackageReference Include="MediatR"/>
                                                 <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
                                                 <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens"/>

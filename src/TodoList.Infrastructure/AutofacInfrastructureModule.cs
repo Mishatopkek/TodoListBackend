@@ -128,12 +128,21 @@ public class AutofacInfrastructureModule : Module
         var passwordSalt = Environment.GetEnvironmentVariable("PASSWORD_SALT_SECRET");
         if (string.IsNullOrEmpty(passwordSalt))
         {
-            throw new ArgumentNullException(nameof(passwordSalt), "PASSWORD_SALT_SECRET was not found in environment variables");
+            throw new ArgumentNullException(nameof(passwordSalt),
+                "PASSWORD_SALT_SECRET was not found in environment variables");
         }
+
+        var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
+        if (string.IsNullOrEmpty(jwtSecret))
+        {
+            throw new ArgumentNullException(nameof(jwtSecret), "JWT_SECRET was not found in environment variables");
+        }
+
         builder
             .RegisterType(typeof(PasswordService))
             .As(typeof(IPasswordService))
-            .WithParameter("salt", passwordSalt)
+            .WithParameter("constantSalt", passwordSalt)
+            .WithParameter("jwtSecret", jwtSecret)
             .SingleInstance();
     }
 
