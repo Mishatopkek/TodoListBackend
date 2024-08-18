@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RestSharp;
 using TodoList.Infrastructure.Data;
 
 namespace TodoList.FunctionalTests;
@@ -17,6 +18,9 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
     /// <returns></returns>
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        Environment.SetEnvironmentVariable("JWT_SECRET", "JWT_SECRET_VALUE");
+        Environment.SetEnvironmentVariable("PASSWORD_SALT_SECRET", "PASSWORD_SALT_SECRET_VALUE");
+
         builder.UseEnvironment("Development"); // will not send real emails
         var host = builder.Build();
         host.Start();
@@ -86,5 +90,17 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
                 //  options.UseInMemoryDatabase(inMemoryCollectionName);
                 //});
             });
+    }
+
+    public RestClient CreateRestClient()
+    {
+        // Create the HttpClient using the base factory
+        HttpClient client = CreateClient();
+
+        // Configure the RestClient with the desired base URL
+        var restClient =
+            new RestClient(client, new RestClientOptions {BaseUrl = new Uri(client.BaseAddress!, "/api/")});
+
+        return restClient;
     }
 }

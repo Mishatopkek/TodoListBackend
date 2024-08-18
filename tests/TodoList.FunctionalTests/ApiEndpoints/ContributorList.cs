@@ -1,4 +1,5 @@
-﻿using Ardalis.HttpClientTestExtensions;
+﻿using FluentAssertions;
+using RestSharp;
 using TodoList.Infrastructure.Data;
 using TodoList.Web;
 using TodoList.Web.Contributors;
@@ -10,15 +11,15 @@ namespace TodoList.FunctionalTests.ApiEndpoints;
 public class ContributorList(CustomWebApplicationFactory<Program> factory)
     : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private readonly HttpClient _client = factory.CreateClient();
+    private readonly RestClient _client = factory.CreateRestClient();
 
     [Fact]
     public async Task ReturnsTwoContributors()
     {
-        var result = await _client.GetAndDeserializeAsync<ContributorListResponse>("/Contributors");
+        ContributorListResponse? result = await _client.GetAsync<ContributorListResponse>("/Contributors");
 
-        Assert.Equal(2, result.Contributors.Count);
-        Assert.Contains(result.Contributors, i => i.Name == SeedData.Contributor1.Name);
-        Assert.Contains(result.Contributors, i => i.Name == SeedData.Contributor2.Name);
+        result!.Contributors.Should().HaveCount(2);
+        result.Contributors.Should().Contain(i => i.Name == SeedData.Contributor1.Name);
+        result.Contributors.Should().Contain(i => i.Name == SeedData.Contributor2.Name);
     }
 }
