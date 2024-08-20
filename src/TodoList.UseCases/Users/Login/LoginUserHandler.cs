@@ -7,13 +7,16 @@ using TodoList.Core.UserAggregate.Specifications;
 
 namespace TodoList.UseCases.Users.Login;
 
-public class LoginUserHandler(IRepositoryBase<User> repository, IPasswordService passwordService)
+public class LoginUserHandler(
+    IRepositoryBase<User> repository,
+    IPasswordService passwordService,
+    IJwtService jwtService)
     : IQueryHandler<LoginUserQuery, Result<UserDTO>>
 {
     public async Task<Result<UserDTO>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
-        var spec = new LoginUserSpec(request.Login);
-        var entity = await repository.FirstOrDefaultAsync(spec, cancellationToken);
+        LoginUserSpec spec = new(request.Login);
+        User? entity = await repository.FirstOrDefaultAsync(spec, cancellationToken);
 
         if (entity == null)
         {
@@ -29,7 +32,7 @@ public class LoginUserHandler(IRepositoryBase<User> repository, IPasswordService
             return Result.NotFound();
         }
 
-        var token = passwordService.GenerateJwtToken(entity);
+        var token = jwtService.GenerateJwtToken(entity);
 
         return new UserDTO(token);
     }

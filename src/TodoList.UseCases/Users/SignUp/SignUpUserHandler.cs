@@ -6,7 +6,7 @@ using TodoList.Core.UserAggregate.Specifications;
 
 namespace TodoList.UseCases.Users.SignUp;
 
-public class SignUpUserHandler(IRepository<User> repository, IPasswordService passwordService)
+public class SignUpUserHandler(IRepository<User> repository, IPasswordService passwordService, IJwtService jwtService)
     : ICommandHandler<SignUpUserCommand, Result<string>>
 {
     private const string UsernameExist = "User is already exist. Try another username";
@@ -28,7 +28,7 @@ public class SignUpUserHandler(IRepository<User> repository, IPasswordService pa
             var createdUser = await repository.AddAsync(newUser, cancellationToken);
 
             // Generate and return the JWT token
-            var token = passwordService.GenerateJwtToken(createdUser);
+            var token = jwtService.GenerateJwtToken(createdUser);
             return Result<string>.Created(token);
         }
         catch (Exception ex)

@@ -142,7 +142,14 @@ public class AutofacInfrastructureModule : Module
             .RegisterType(typeof(PasswordService))
             .As(typeof(IPasswordService))
             .WithParameter("constantSalt", passwordSalt)
+            .SingleInstance();
+
+        builder
+            .RegisterType(typeof(JwtService))
+            .As(typeof(IJwtService))
             .WithParameter("jwtSecret", jwtSecret)
+            .WithParameter("issuer", "https://todo.mishahub.com")
+            .WithParameter("audience", "https://todo.mishahub.com/api")
             .SingleInstance();
     }
 
