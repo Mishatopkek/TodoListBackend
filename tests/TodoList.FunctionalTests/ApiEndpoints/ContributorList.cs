@@ -16,7 +16,9 @@ public class ContributorList(CustomWebApplicationFactory<Program> factory)
     [Fact]
     public async Task ReturnsTwoContributors()
     {
-        ContributorListResponse? result = await _client.GetAsync<ContributorListResponse>("/Contributors");
+        RestRequest request = new("/Contributors");
+        RestResponse<ContributorListResponse> response = await _client.ExecuteAsync<ContributorListResponse>(request);
+        ContributorListResponse? result = response.Data;
 
         result!.Contributors.Should().HaveCount(2);
         result.Contributors.Should().Contain(i => i.Name == SeedData.Contributor1.Name);

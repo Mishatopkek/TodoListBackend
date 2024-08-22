@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -18,48 +19,38 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
     /// <returns></returns>
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        Environment.SetEnvironmentVariable("JWT_SECRET", "JWT_SECRET_VALUE");
-        Environment.SetEnvironmentVariable("PASSWORD_SALT_SECRET", "PASSWORD_SALT_SECRET_VALUE");
+        Environment.SetEnvironmentVariable("JWT_SECRET", "1234567890JWT_SECRET_VALUE1234567890");
+        Environment.SetEnvironmentVariable("PASSWORD_SALT_SECRET", "1234567890PASSWORD_SALT_SECRET_VALUE1234567890");
 
         builder.UseEnvironment("Development"); // will not send real emails
-        var host = builder.Build();
+        IHost host = builder.Build();
         host.Start();
 
         // Get service provider.
-        var serviceProvider = host.Services;
+        IServiceProvider serviceProvider = host.Services;
 
         // Create a scope to obtain a reference to the database
         // context (AppDbContext).
-        using (var scope = serviceProvider.CreateScope())
-        {
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<AppDbContext>();
+        using IServiceScope scope = serviceProvider.CreateScope();
+        IServiceProvider scopedServices = scope.ServiceProvider;
+        AppDbContext db = scopedServices.GetRequiredService<AppDbContext>();
 
-            var logger = scopedServices
-                .GetRequiredService<ILogger<CustomWebApplicationFactory<TProgram>>>();
+        ILogger<CustomWebApplicationFactory<TProgram>> logger = scopedServices
+            .GetRequiredService<ILogger<CustomWebApplicationFactory<TProgram>>>();
 
-            // Reset Sqlite database for each test run
-            // If using a real database, you'll likely want to remove this step.
-            db.Database.EnsureDeleted();
+        // Reset Sqlite database for each test run
+        // If using a real database, you'll likely want to remove this step.
+        db.Database.EnsureDeleted();
 
-            // Ensure the database is created.
-            db.Database.EnsureCreated();
+        // Ensure the database is created.
+        db.Database.EnsureCreated();
 
-            try
-            {
-                // Can also skip creating the items
-                //if (!db.ToDoItems.Any())
-                //{
-                // Seed the database with test data.
-                SeedData.PopulateTestData(db);
-                //}
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "An error occurred seeding the " +
-                                    "database with test messages. Error: {exceptionMessage}", ex.Message);
-            }
-        }
+        // Can also skip creating the items
+        //if (!db.ToDoItems.Any())
+        //{
+        // Seed the database with test data.
+        SeedData.PopulateTestData(db);
+        //}
 
         return host;
     }
@@ -72,23 +63,23 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
                 // Configure test dependencies here
 
                 //// Remove the app's ApplicationDbContext registration.
-                //var descriptor = services.SingleOrDefault(
-                //d => d.ServiceType ==
-                //    typeof(DbContextOptions<AppDbContext>));
+                ServiceDescriptor? descriptor = services.SingleOrDefault(
+                    d => d.ServiceType ==
+                         typeof(DbContextOptions<AppDbContext>));
 
-                //if (descriptor != null)
-                //{
-                //  services.Remove(descriptor);
-                //}
+                if (descriptor != null)
+                {
+                    services.Remove(descriptor);
+                }
 
                 //// This should be set for each individual test run
-                //string inMemoryCollectionName = Guid.NewGuid().ToString();
+                var inMemoryCollectionName = Guid.NewGuid().ToString();
 
-                //// Add ApplicationDbContext using an in-memory database for testing.
-                //services.AddDbContext<AppDbContext>(options =>
-                //{
-                //  options.UseInMemoryDatabase(inMemoryCollectionName);
-                //});
+                // Add ApplicationDbContext using an in-memory database for testing.
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase(inMemoryCollectionName);
+                });
             });
     }
 

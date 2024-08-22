@@ -17,7 +17,9 @@ public class ContributorGetById(CustomWebApplicationFactory<Program> factory)
     [Fact]
     public async Task ReturnsSeedContributorGivenId1()
     {
-        ContributorRecord? result = await _client.GetAsync<ContributorRecord>(GetContributorByIdRequest.BuildRoute(1));
+        RestRequest request = new(GetContributorByIdRequest.BuildRoute(1));
+        RestResponse<ContributorRecord> response = await _client.ExecuteAsync<ContributorRecord>(request);
+        ContributorRecord? result = response.Data;
 
         result.Should().NotBeNull();
         result!.Id.Should().Be(1);
@@ -27,8 +29,9 @@ public class ContributorGetById(CustomWebApplicationFactory<Program> factory)
     [Fact]
     public async Task ReturnsNotFoundGivenId1000()
     {
-        RestResponse result = await _client.ExecuteGetAsync(GetContributorByIdRequest.BuildRoute(1000));
+        RestRequest request = new(GetContributorByIdRequest.BuildRoute(1000));
+        RestResponse<ContributorRecord> response = await _client.ExecuteAsync<ContributorRecord>(request);
 
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

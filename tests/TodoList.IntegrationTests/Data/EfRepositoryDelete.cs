@@ -1,4 +1,5 @@
 ﻿using TodoList.Core.ContributorAggregate;
+using TodoList.Infrastructure.Data;
 using Xunit;
 
 namespace TodoList.IntegrationTests.Data;
@@ -9,16 +10,15 @@ public class EfRepositoryDelete : BaseEfRepoTestFixture
     public async Task DeletesItemAfterAddingIt()
     {
         // add a Contributor
-        var repository = GetRepository();
+        EfRepository<Contributor> repository = GetRepository();
         var initialName = Guid.NewGuid().ToString();
-        var Contributor = new Contributor(initialName);
-        await repository.AddAsync(Contributor);
+        Contributor contributor = new(initialName);
+        await repository.AddAsync(contributor);
 
         // delete the item
-        await repository.DeleteAsync(Contributor);
+        await repository.DeleteAsync(contributor);
 
         // verify it's no longer there
-        Assert.DoesNotContain(await repository.ListAsync(),
-            Contributor => Contributor.Name == initialName);
+        Assert.DoesNotContain(await repository.ListAsync(), prevContributor => prevContributor.Name == initialName);
     }
 }
