@@ -36,6 +36,8 @@ public class AuthTests(CustomWebApplicationFactory<Program> factory)
         await CheckLoginOk(loginUserRequest, jwtService);
 
         await CheckSignUpConflict(signUpUserRequest);
+
+        await CheckLoginWrongPassword(loginUserRequest, faker.Internet.Password());
     }
 
     private async Task CheckLoginNotFound(LoginUserRequest loginUserRequest)
@@ -100,5 +102,12 @@ public class AuthTests(CustomWebApplicationFactory<Program> factory)
     {
         RestResponse<SignUpUserResponseCreated> response = await SignUp(signUpUserRequest);
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+    }
+
+    private async Task CheckLoginWrongPassword(LoginUserRequest loginUserRequest, string password)
+    {
+        loginUserRequest.Password = password;
+        RestResponse<LoginUserResponse> loginNotFound = await Login(loginUserRequest);
+        loginNotFound.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

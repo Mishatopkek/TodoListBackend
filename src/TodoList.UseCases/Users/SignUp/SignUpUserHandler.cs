@@ -17,15 +17,15 @@ public class SignUpUserHandler(IRepository<User> repository, IPasswordService pa
         try
         {
             // Check if the user is already registered
-            var entity = await IsUserRegistered(request, cancellationToken);
+            User? entity = await IsUserRegistered(request, cancellationToken);
             if (entity != null)
             {
                 return FillUpPossibleReasons(request, entity);
             }
 
             // Create a new user and add to the database
-            var newUser = CreateUser(request);
-            var createdUser = await repository.AddAsync(newUser, cancellationToken);
+            User newUser = CreateUser(request);
+            User createdUser = await repository.AddAsync(newUser, cancellationToken);
 
             // Generate and return the JWT token
             var token = jwtService.GenerateJwtToken(createdUser);
