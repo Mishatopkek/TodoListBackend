@@ -59,24 +59,25 @@ public class JwtService(string jwtSecret, string issuer, string audience) : IJwt
             ClockSkew = TimeSpan.Zero // Optional: reduces the default 5 minutes tolerance on token expiration
         };
 
+        ClaimsPrincipal? principal;
+        SecurityToken validatedToken;
         try
         {
-            ClaimsPrincipal? principal =
-                tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
-
-            // Additional validation (optional)
-            if (validatedToken is not JwtSecurityToken jwtToken ||
-                !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new SecurityTokenException("Invalid token");
-            }
-
-            return principal;
+            principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
         }
         catch (Exception ex)
         {
             // Handle validation errors (optional)
             throw new SecurityTokenException("Token validation failed", ex);
         }
+
+        // Additional validation (optional)
+        if (validatedToken is not JwtSecurityToken jwtToken ||
+            !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        {
+            throw new SecurityTokenException("Invalid token");
+        }
+
+        return principal;
     }
 }

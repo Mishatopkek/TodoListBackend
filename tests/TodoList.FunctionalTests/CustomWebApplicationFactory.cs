@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Bogus;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +20,9 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
     /// <returns></returns>
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        Environment.SetEnvironmentVariable("JWT_SECRET", "1234567890JWT_SECRET_VALUE1234567890");
-        Environment.SetEnvironmentVariable("PASSWORD_SALT_SECRET", "1234567890PASSWORD_SALT_SECRET_VALUE1234567890");
+        Faker faker = new();
+        Environment.SetEnvironmentVariable("JWT_SECRET", faker.Random.AlphaNumeric(128));
+        Environment.SetEnvironmentVariable("PASSWORD_SALT_SECRET", faker.Random.AlphaNumeric(100));
 
         builder.UseEnvironment("Development"); // will not send real emails
         IHost host = builder.Build();
