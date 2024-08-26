@@ -84,6 +84,11 @@ public class SignUpUserValidator : Validator<SignUpUserRequest>
 
     private static bool NotContainRestrictedWords(string username)
     {
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            return false;
+        }
+
         return Array.TrueForAll(_restrictedWords,
             word => !username.Equals(word, StringComparison.CurrentCultureIgnoreCase));
     }
