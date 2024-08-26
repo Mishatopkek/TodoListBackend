@@ -22,11 +22,7 @@ public class EfRepositoryUpdate : BaseEfRepoTestFixture
         // fetch the item and update its title
         var newContributor = (await repository.ListAsync())
             .FirstOrDefault(Contributor => Contributor.Name == initialName);
-        if (newContributor == null)
-        {
-            Assert.NotNull(newContributor);
-            return;
-        }
+        Assert.NotNull(newContributor);
 
         Assert.NotSame(Contributor, newContributor);
         var newName = Guid.NewGuid().ToString();
@@ -40,8 +36,8 @@ public class EfRepositoryUpdate : BaseEfRepoTestFixture
             .FirstOrDefault(Contributor => Contributor.Name == newName);
 
         Assert.NotNull(updatedItem);
-        Assert.NotEqual(Contributor.Name, updatedItem?.Name);
-        Assert.Equal(Contributor.Status, updatedItem?.Status);
-        Assert.Equal(newContributor.Id, updatedItem?.Id);
+        Assert.NotEqual(Contributor.Name, updatedItem!.Name);
+        Assert.Equal(Contributor.Status, updatedItem!.Status);
+        Assert.Equal(newContributor.Id, updatedItem!.Id);
     }
 }

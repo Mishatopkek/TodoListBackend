@@ -1,78 +1,69 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using TodoList.Core.Interfaces;
-using TodoList.Core.UserAggregate;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace TodoList.Core.Services;
 
 public class PasswordService : IPasswordService
 {
-    // Function to generate a random salt
-    public byte[] GenerateSalt()
+    private readonly string _constantSalt;
+
+    public PasswordService(string constantSalt)
     {
-        using var rng = RandomNumberGenerator.Create();
-        var salt = new byte[16]; // 128-bit salt
-        rng.GetBytes(salt);
-        return salt;
+        if (string.IsNullOrWhiteSpace(constantSalt))
+        {
+            throw new ArgumentException("Salt cannot be null or empty", nameof(constantSalt));
+        }
+
+        _constantSalt = constantSalt;
     }
 
     // Function to hash a password with a given salt using HMAC-SHA512
-    public byte[] HashPassword(string password, byte[] salt)
+    public byte[] GenerateHash(string password, out byte[] passwordSalt)
     {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            throw new ArgumentException("Password cannot be null or empty", nameof(password));
+        }
+
+        using HMACSHA512 hmac = new();
+
+        var passwordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password + _constantSalt));
+
+        passwordSalt = hmac.Key;
+
+        return passwordHashBytes;
+    }
+
+    public byte[] Hash(string password, byte[] salt)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            throw new ArgumentException("Password cannot be null or empty", nameof(password));
+        }
+
+        if (salt == null || salt.Length == 0)
+        {
+            throw new ArgumentException("Salt cannot be null or empty", nameof(salt));
+        }
+
         using var hmac = new HMACSHA512(salt);
-        return hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return hmac.ComputeHash(Encoding.UTF8.GetBytes(password + _constantSalt));
     }
 
     // Function to compare two byte arrays for equality
     public bool ArePasswordsEqual(byte[] hashedPassword1, byte[] hashedPassword2)
     {
+        if (hashedPassword1 == null || hashedPassword2 == null)
+        {
+            throw new ArgumentException("Passwords cannot be null");
+        }
+
         if (hashedPassword1.Length != hashedPassword2.Length)
         {
             return false;
         }
 
         return !hashedPassword1.Where((t, i) => t != hashedPassword2[i]).Any();
-    }
-
-    public string GenerateJwtToken(User user)
-    {
-        var token = GenerateJwtToken(user.Id, user.Name, user.Email, user.Role);
-        return token;
-    }
-
-    public string GenerateJwtToken(Guid userId, string username, string email, string role)
-    {
-        // Define the security key
-        var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET");
-        if (string.IsNullOrEmpty(secretKey))
-        {
-            throw new ArgumentNullException(nameof(secretKey), "Jwt secret is not initialized");
-        }
-
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        // Define the claims
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, username),
-            new Claim(JwtRegisteredClaimNames.Email, email), new Claim(ClaimTypes.Role, role),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        // Create the JWT token
-        var token = new JwtSecurityToken(
-            "https://todo.mishahub.com",
-            "https://todo.mishahub.com/api",
-            claims,
-            expires: DateTime.UtcNow.AddHours(1),
-            signingCredentials: credentials);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

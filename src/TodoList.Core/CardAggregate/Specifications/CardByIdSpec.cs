@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using TodoList.Core.Extentions;
+using TodoList.Core.Extensions;
 
 namespace TodoList.Core.CardAggregate.Specifications;
 

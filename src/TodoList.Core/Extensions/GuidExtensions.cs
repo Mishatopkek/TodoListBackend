@@ -1,6 +1,6 @@
-﻿namespace TodoList.Core.Extentions;
+﻿namespace TodoList.Core.Extensions;
 
-public static class GuidExtentions
+public static class GuidExtensions
 {
     public static Ulid ToUlid(this Guid guid)
     {

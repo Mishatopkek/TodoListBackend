@@ -125,10 +125,32 @@ public class AutofacInfrastructureModule : Module
 
     private void RegisterServices(ContainerBuilder builder)
     {
+        var passwordSalt = Environment.GetEnvironmentVariable("PASSWORD_SALT_SECRET");
+        if (string.IsNullOrEmpty(passwordSalt))
+        {
+            throw new ArgumentNullException(nameof(passwordSalt),
+                "PASSWORD_SALT_SECRET was not found in environment variables");
+        }
+
+        var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
+        if (string.IsNullOrEmpty(jwtSecret))
+        {
+            throw new ArgumentNullException(nameof(jwtSecret), "JWT_SECRET was not found in environment variables");
+        }
+
         builder
             .RegisterType(typeof(PasswordService))
             .As(typeof(IPasswordService))
-            .InstancePerLifetimeScope();
+            .WithParameter("constantSalt", passwordSalt)
+            .SingleInstance();
+
+        builder
+            .RegisterType(typeof(JwtService))
+            .As(typeof(IJwtService))
+            .WithParameter("jwtSecret", jwtSecret)
+            .WithParameter("issuer", "https://todo.mishahub.com")
+            .WithParameter("audience", "https://todo.mishahub.com/api")
+            .SingleInstance();
     }
 
     private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)

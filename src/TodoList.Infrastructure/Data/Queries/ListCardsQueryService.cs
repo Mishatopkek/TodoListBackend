@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoList.Core.Extentions;
+using TodoList.Core.Extensions;
 using TodoList.UseCases.Cards;
 using TodoList.UseCases.Cards.List;
 

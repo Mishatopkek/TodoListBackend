@@ -3,7 +3,7 @@ using Ardalis.SharedKernel;
 using Ardalis.Specification;
 using TodoList.Core.CardAggregate;
 using TodoList.Core.CardAggregate.Specifications;
-using TodoList.Core.Extentions;
+using TodoList.Core.Extensions;
 
 namespace TodoList.UseCases.Cards.GetById;
 

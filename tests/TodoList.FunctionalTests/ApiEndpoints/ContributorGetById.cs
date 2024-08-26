@@ -1,4 +1,6 @@
-﻿using Ardalis.HttpClientTestExtensions;
+﻿using System.Net;
+using FluentAssertions;
+using RestSharp;
 using TodoList.Infrastructure.Data;
 using TodoList.Web;
 using TodoList.Web.Contributors;
@@ -10,21 +12,26 @@ namespace TodoList.FunctionalTests.ApiEndpoints;
 public class ContributorGetById(CustomWebApplicationFactory<Program> factory)
     : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private readonly HttpClient _client = factory.CreateClient();
+    private readonly RestClient _client = factory.CreateRestClient();
 
     [Fact]
     public async Task ReturnsSeedContributorGivenId1()
     {
-        var result = await _client.GetAndDeserializeAsync<ContributorRecord>(GetContributorByIdRequest.BuildRoute(1));
+        RestRequest request = new(GetContributorByIdRequest.BuildRoute(1));
+        RestResponse<ContributorRecord> response = await _client.ExecuteAsync<ContributorRecord>(request);
+        ContributorRecord? result = response.Data;
 
-        Assert.Equal(1, result.Id);
-        Assert.Equal(SeedData.Contributor1.Name, result.Name);
+        result.Should().NotBeNull();
+        result!.Id.Should().Be(1);
+        result.Name.Should().Be(SeedData.Contributor1.Name);
     }
 
     [Fact]
     public async Task ReturnsNotFoundGivenId1000()
     {
-        var route = GetContributorByIdRequest.BuildRoute(1000);
-        _ = await _client.GetAndEnsureNotFoundAsync(route);
+        RestRequest request = new(GetContributorByIdRequest.BuildRoute(1000));
+        RestResponse<ContributorRecord> response = await _client.ExecuteAsync<ContributorRecord>(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

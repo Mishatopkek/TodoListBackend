@@ -4,10 +4,13 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using FluentValidation;
 using Serilog;
 using TodoList.Core;
 using TodoList.Infrastructure;
 using TodoList.Infrastructure.Data;
+
+ValidatorOptions.Global.LanguageManager.Enabled = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +32,11 @@ builder.Services.AddFastEndpoints();
 builder.Services.SwaggerDocument(o =>
 {
     o.ShortSchemaNames = true;
+});
+
+builder.Services.AddCors(cors =>
+{
+    cors.AddPolicy("any", config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 });
 
 // add list services for diagnostic purposes - see https://github.com/ardalis/AspNetCoreStartupServices
@@ -63,7 +71,7 @@ else
 app.UseFastEndpoints(config =>
 {
     config.Endpoints.RoutePrefix = "api";
-});
+}).UseCors("any");
 app.UseSwaggerGen(); // FastEndpoints middleware
 
 app.UseHttpsRedirection();

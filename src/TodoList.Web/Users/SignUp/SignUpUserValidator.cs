@@ -68,8 +68,8 @@ public class SignUpUserValidator : Validator<SignUpUserRequest>
     public SignUpUserValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage("Username is required.")
-            .Length(5, 20).WithMessage("Username must be between 5 and 20 characters.")
+            .NotEmpty()
+            .Length(5, 20)
             .Matches("^[a-zA-Z0-9_]+$").WithMessage("Username can only contain letters, numbers, and underscores.")
             .Must(NotContainRestrictedWords).WithMessage("Username contains restricted words.");
 
@@ -82,9 +82,14 @@ public class SignUpUserValidator : Validator<SignUpUserRequest>
             .MinimumLength(8);
     }
 
-    private bool NotContainRestrictedWords(string username)
+    private static bool NotContainRestrictedWords(string username)
     {
-        // Example of restricted words
-        return _restrictedWords.All(word => !username.Equals(word, StringComparison.CurrentCultureIgnoreCase));
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            return false;
+        }
+
+        return Array.TrueForAll(_restrictedWords,
+            word => !username.Equals(word, StringComparison.CurrentCultureIgnoreCase));
     }
 }
