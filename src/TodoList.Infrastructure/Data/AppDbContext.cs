@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Ardalis.SharedKernel;
 using Microsoft.EntityFrameworkCore;
-using TodoList.Core.CardAggregate;
+using TodoList.Core.BoardAggregate;
 using TodoList.Core.ContributorAggregate;
 using TodoList.Core.UserAggregate;
 
@@ -13,7 +13,11 @@ public class AppDbContext(
     : DbContext(options)
 {
     public DbSet<Contributor> Contributors => Set<Contributor>();
+    public DbSet<Board> Boards => Set<Board>();
     public DbSet<Card> Cards => Set<Card>();
+    public DbSet<CardDetails> CardsDetail => Set<CardDetails>();
+    public DbSet<Column> Columns => Set<Column>();
+    public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
