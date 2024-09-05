@@ -9,7 +9,9 @@ using TodoList.Core.Interfaces;
 using TodoList.Core.Services;
 using TodoList.Infrastructure.Data;
 using TodoList.Infrastructure.Data.Queries;
+using TodoList.Infrastructure.Data.Queries.Board;
 using TodoList.Infrastructure.Email;
+using TodoList.UseCases.Boards.List;
 using TodoList.UseCases.Cards.List;
 using TodoList.UseCases.Contributors.Create;
 using TodoList.UseCases.Contributors.List;
@@ -88,6 +90,10 @@ public class AutofacInfrastructureModule : Module
 
         builder.RegisterType<ListCardsQueryService>()
             .As<IListCardsQueryService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<ListBoardQueryService>()
+            .As<IListBoardQueryService>()
             .InstancePerLifetimeScope();
     }
 

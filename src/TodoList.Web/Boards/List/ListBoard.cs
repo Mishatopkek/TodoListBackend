@@ -1,12 +1,12 @@
 ﻿using Ardalis.Result;
 using FastEndpoints;
 using MediatR;
-using TodoList.UseCases.Cards;
-using TodoList.UseCases.Cards.List;
+using TodoList.UseCases.Boards;
+using TodoList.UseCases.Boards.List;
 
 namespace TodoList.Web.Boards.List;
 
-public class ListBoard(IMediator mediator) : EndpointWithoutRequest<ListBoardResponse>
+public class ListBoard(IMediator mediator) : EndpointWithoutRequest<IEnumerable<ListBoardResponse>>
 {
     public override void Configure()
     {
@@ -20,12 +20,11 @@ public class ListBoard(IMediator mediator) : EndpointWithoutRequest<ListBoardRes
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        Result<IEnumerable<CardDto>> result = await mediator.Send(new ListCardsQuery(null, null), ct);
+        Result<IEnumerable<BoardDto>> result = await mediator.Send(new ListBoardsQuery(null, null), ct);
 
         if (result.IsSuccess)
         {
-            Response =
-                new ListBoardResponse() /*{Cards = result.Value.Select(c => new CardRecord(c.Id, c.Name)).ToList()}*/;
+            Response = result.Value.Select(card => new ListBoardResponse(card.Id, card.Name, card.Title, card.Author));
         }
     }
 }
