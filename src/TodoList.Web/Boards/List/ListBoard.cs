@@ -10,12 +10,11 @@ public class ListBoard(IMediator mediator) : EndpointWithoutRequest<IEnumerable<
 {
     public override void Configure()
     {
-        Get("Board/Cards");
-        AllowAnonymous();
+        Get("Board");
+
         Summary(s =>
         {
-            s.Description = "Create a new Contributor. A valid name is required.";
-            //TODO add request and error response examples
+            //TODO add description, request and error response examples
         });
     }
 
