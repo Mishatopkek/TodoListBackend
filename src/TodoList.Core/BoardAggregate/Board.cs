@@ -23,5 +23,5 @@ public class Board : EntityBase<Guid>, IAggregateRoot
 
     public string Name { get; set; } = null!;
     public string Title { get; set; } = null!;
-    public IQueryable<Column> Columns { get; set; } = null!;
+    public List<Column> Columns { get; set; } = null!;
 }

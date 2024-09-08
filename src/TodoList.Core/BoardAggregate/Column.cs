@@ -9,7 +9,7 @@ public class Column : EntityBase<Guid>, IAggregateRoot
     {
     }
 
-    public Column(Guid boardId, Board board, string name, bool showAddCardByDefault, IQueryable<Card> cards)
+    public Column(Guid boardId, Board board, string name, bool showAddCardByDefault, List<Card> cards)
     {
         BoardId = Guard.Against.Null(boardId, nameof(boardId));
         Board = Guard.Against.Null(board, nameof(board));
@@ -23,5 +23,5 @@ public class Column : EntityBase<Guid>, IAggregateRoot
 
     public string Name { get; set; } = null!;
     public bool ShowAddCardByDefault { get; set; }
-    public IQueryable<Card> Cards { get; set; } = null!;
+    public List<Card> Cards { get; set; } = null!;
 }

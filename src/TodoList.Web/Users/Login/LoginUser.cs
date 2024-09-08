@@ -13,6 +13,7 @@ public class LoginUser(IMediator mediator) : Endpoint<LoginUserRequest, LoginUse
         AllowAnonymous();
         Summary(s =>
         {
+            //TODO add description
             var usernameExample = new LoginUserRequest {Login = "superuniquename", Password = "qwer1234asdf"};
             s.RequestExamples.Add(new RequestExample(usernameExample, "User example"));
 

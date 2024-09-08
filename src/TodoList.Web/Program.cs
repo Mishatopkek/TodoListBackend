@@ -1,10 +1,13 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Text;
+using Ardalis.GuardClauses;
 using Ardalis.ListStartupServices;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TodoList.Core;
 using TodoList.Infrastructure;
@@ -38,6 +41,28 @@ builder.Services.AddCors(cors =>
 {
     cors.AddPolicy("any", config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 });
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET")!;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "https://todo.mishahub.com",
+            ValidAudience = "https://todo.mishahub.com/api",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+            ClockSkew = TimeSpan.FromHours(1)
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // add list services for diagnostic purposes - see https://github.com/ardalis/AspNetCoreStartupServices
 builder.Services.Configure<ServiceConfig>(config =>
@@ -67,6 +92,9 @@ else
     app.UseDefaultExceptionHandler(); // from FastEndpoints
     app.UseHsts();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseFastEndpoints(config =>
 {

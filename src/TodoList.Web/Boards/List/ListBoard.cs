@@ -15,6 +15,7 @@ public class ListBoard(IMediator mediator) : EndpointWithoutRequest<IEnumerable<
         Summary(s =>
         {
             s.Description = "Create a new Contributor. A valid name is required.";
+            //TODO add request and error response examples
         });
     }
 

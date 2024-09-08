@@ -69,7 +69,7 @@ public class SignUpUserValidator : Validator<SignUpUserRequest>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .Length(5, 20)
+            .Length(4, 20)
             .Matches("^[a-zA-Z0-9_]+$").WithMessage("Username can only contain letters, numbers, and underscores.")
             .Must(NotContainRestrictedWords).WithMessage("Username contains restricted words.");
 
@@ -82,7 +82,7 @@ public class SignUpUserValidator : Validator<SignUpUserRequest>
             .MinimumLength(8);
     }
 
-    private static bool NotContainRestrictedWords(string username)
+    public static bool NotContainRestrictedWords(string username)
     {
         if (string.IsNullOrWhiteSpace(username))
         {

@@ -14,6 +14,7 @@ public class SignUpUser(IMediator mediator) : Endpoint<SignUpUserRequest>
         AllowAnonymous();
         Summary(s =>
         {
+            //TODO add description
             RequestExamples(s);
 
             ResponseExamples(s);
@@ -30,7 +31,6 @@ public class SignUpUser(IMediator mediator) : Endpoint<SignUpUserRequest>
                 await SendAsync(new SignUpUserResponseCreated(result.Value), StatusCodes.Status201Created, ct);
                 break;
             case ResultStatus.Invalid:
-                Console.WriteLine(result);
                 await SendAsync(result.ToErrorResponse(), StatusCodes.Status409Conflict, ct);
                 break;
         }
