@@ -7,11 +7,11 @@ namespace TodoList.Infrastructure.Data.Queries.Board;
 
 public class ListBoardQueryService(AppDbContext db) : IListBoardQueryService
 {
-    public async Task<IEnumerable<BoardDto>> ListAsync()
+    public async Task<IEnumerable<BoardDTO>> ListAsync()
     {
-        List<BoardDto> result = await db.Boards
+        List<BoardDTO> result = await db.Boards
             .Include(x => x.User)
-            .Select(b => new BoardDto(b.Id.ToUlid(), b.Name, b.Title, b.User.Name))
+            .Select(b => new BoardDTO(b.Id.ToUlid(), b.Name, b.Title, b.User.Name, new List<ColumnDTO>()))
             .ToListAsync();
 
         return result;

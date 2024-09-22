@@ -27,7 +27,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 
-var connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Guard.Against.Null(connectionString);
 builder.Services.AddApplicationDbContext(connectionString);
 

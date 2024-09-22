@@ -2,5 +2,5 @@
 
 public interface IListBoardQueryService
 {
-    Task<IEnumerable<BoardDto>> ListAsync();
+    Task<IEnumerable<BoardDTO>> ListAsync();
 }

@@ -10,6 +10,7 @@
                                                 <PackageReference Include="Autofac"/>
                                                 <PackageReference Include="FastEndpoints"/>
                                                 <PackageReference Include="MediatR"/>
+                                                <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions"/>
                                                 <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
                                                 <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens"/>
                                                 <PackageReference Include="Microsoft.IdentityModel.Tokens"/>

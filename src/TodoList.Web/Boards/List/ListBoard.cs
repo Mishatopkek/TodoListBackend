@@ -20,7 +20,7 @@ public class ListBoard(IMediator mediator) : EndpointWithoutRequest<IEnumerable<
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        Result<IEnumerable<BoardDto>> result = await mediator.Send(new ListBoardsQuery(null, null), ct);
+        Result<IEnumerable<BoardDTO>> result = await mediator.Send(new ListBoardsQuery(null, null), ct);
 
         if (result.IsSuccess)
         {

@@ -1,9 +1,11 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.SharedKernel;
+using Microsoft.EntityFrameworkCore;
 using TodoList.Core.UserAggregate;
 
 namespace TodoList.Core.BoardAggregate;
 
+[Index(nameof(Name))]
 public class Board : EntityBase<Guid>, IAggregateRoot
 {
     // Parameterless constructor required by EF Core

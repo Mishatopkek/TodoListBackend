@@ -30,9 +30,9 @@ public class CreateBoardHandler(IRepository<Board> repository) : ICommandHandler
             UserId = request.UserId,
             Columns =
             [
-                new Column {Name = "Todo"},
-                new Column {Name = "Doing"},
-                new Column {Name = "Done"}
+                new Column {Title = "Todo"},
+                new Column {Title = "Doing"},
+                new Column {Title = "Done"}
             ]
         };
 

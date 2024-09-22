@@ -4,12 +4,12 @@ using Ardalis.SharedKernel;
 namespace TodoList.UseCases.Boards.List;
 
 public class ListBoardsHandler(IListBoardQueryService query)
-    : IQueryHandler<ListBoardsQuery, Result<IEnumerable<BoardDto>>>
+    : IQueryHandler<ListBoardsQuery, Result<IEnumerable<BoardDTO>>>
 {
-    public async Task<Result<IEnumerable<BoardDto>>> Handle(ListBoardsQuery request,
+    public async Task<Result<IEnumerable<BoardDTO>>> Handle(ListBoardsQuery request,
         CancellationToken cancellationToken)
     {
-        IEnumerable<BoardDto> result = await query.ListAsync();
+        IEnumerable<BoardDTO> result = await query.ListAsync();
 
         return Result.Success(result);
     }

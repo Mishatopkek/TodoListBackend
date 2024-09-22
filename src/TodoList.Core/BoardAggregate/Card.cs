@@ -13,14 +13,14 @@ public class Card : EntityBase<Guid>, IAggregateRoot
     {
         ColumnId = Guard.Against.Null(columnId, nameof(columnId));
         Column = Guard.Against.Null(column, nameof(column));
-        Name = Guard.Against.NullOrEmpty(name, nameof(name));
+        Title = Guard.Against.NullOrEmpty(name, nameof(name));
         Details = Guard.Against.Null(details, nameof(details));
     }
 
     public Guid ColumnId { get; set; } = Guid.Empty;
     public Column Column { get; set; } = null!;
 
-    public string Name { get; set; } = null!;
+    public string Title { get; set; } = null!;
 
     public Guid CardDetailsId { get; set; } = Guid.Empty;
     public CardDetails Details { get; set; } = null!;

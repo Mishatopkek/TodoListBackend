@@ -11,7 +11,7 @@ public class ListCardsQueryService(AppDbContext db) : IListCardsQueryService
     {
         var result = await db.Cards
             .FromSqlRaw("SELECT Id, Name FROM Cards")
-            .Select(c => new CardDto(c.Id.ToUlid(), c.Name))
+            .Select(c => new CardDto(c.Id.ToUlid(), c.Title))
             .ToListAsync();
 
         return result;

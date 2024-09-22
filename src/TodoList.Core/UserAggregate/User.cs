@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.SharedKernel;
+using TodoList.Core.BoardAggregate;
 
 namespace TodoList.Core.UserAggregate;
 
@@ -12,4 +13,6 @@ public class User(Guid id, string name, string email, string role, byte[] passwo
     public string Role { get; set; } = Guard.Against.NullOrEmpty(role, nameof(role));
     public byte[] Password { get; set; } = Guard.Against.NullOrEmpty(password, nameof(password)).ToArray();
     public byte[] PasswordSalt { get; set; } = Guard.Against.NullOrEmpty(passwordSalt, nameof(passwordSalt)).ToArray();
+
+    public List<Comment> Comments { get; set; } = null!;
 }
