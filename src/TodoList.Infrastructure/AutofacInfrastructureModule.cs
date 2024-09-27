@@ -10,7 +10,9 @@ using TodoList.Core.Services;
 using TodoList.Infrastructure.Data;
 using TodoList.Infrastructure.Data.Queries;
 using TodoList.Infrastructure.Data.Queries.Board;
+using TodoList.Infrastructure.Data.Queries.Board.Column;
 using TodoList.Infrastructure.Email;
+using TodoList.UseCases.Boards.Column.Create;
 using TodoList.UseCases.Boards.GetByName;
 using TodoList.UseCases.Boards.List;
 using TodoList.UseCases.Cards.List;
@@ -99,6 +101,10 @@ public class AutofacInfrastructureModule : Module
 
         builder.RegisterType<GetByNameBoardQueryService>()
             .As<IGetByNameBoardService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<CreateColumnCommandService>()
+            .As<ICreateColumnService>()
             .InstancePerLifetimeScope();
     }
 

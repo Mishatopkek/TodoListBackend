@@ -27,12 +27,12 @@ public class CreateBoardHandler(IRepository<Board> repository) : ICommandHandler
         {
             Name = request.Name,
             Title = request.Title,
-            UserId = request.UserId,
+            UserId = request.UserId.ToGuid(),
             Columns =
             [
-                new Column {Title = "Todo"},
-                new Column {Title = "Doing"},
-                new Column {Title = "Done"}
+                new Core.BoardAggregate.Column {Title = "Todo", ShowAddCardByDefault = true},
+                new Core.BoardAggregate.Column {Title = "Doing"},
+                new Core.BoardAggregate.Column {Title = "Done"}
             ]
         };
 

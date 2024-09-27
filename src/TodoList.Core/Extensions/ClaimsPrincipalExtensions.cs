@@ -49,6 +49,6 @@ public static class ClaimsPrincipalExtensions
             throw new ArgumentException("Role is missing or invalid in the token.");
         }
 
-        return new JwtUserModel {UserId = Guid.Parse(userId), Username = userName, Email = email, Role = role};
+        return new JwtUserModel {UserId = userId.ToUlid(), Username = userName, Email = email, Role = role};
     }
 }
