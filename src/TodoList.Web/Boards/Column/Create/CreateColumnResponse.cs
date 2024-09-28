@@ -1,4 +1,4 @@
-﻿namespace TodoList.Web.Boards.Column;
+﻿namespace TodoList.Web.Boards.Column.Create;
 
 public class CreateColumnResponse
 {

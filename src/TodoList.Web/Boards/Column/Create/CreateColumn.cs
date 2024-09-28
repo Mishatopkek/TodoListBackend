@@ -5,7 +5,7 @@ using TodoList.Core.Extensions;
 using TodoList.Core.UserAggregate;
 using TodoList.UseCases.Boards.Column.Create;
 
-namespace TodoList.Web.Boards.Column.ColumnCreate;
+namespace TodoList.Web.Boards.Column.Create;
 
 public class CreateColumn(IMediator mediator) : Endpoint<CreateColumnRequest, CreateColumnResponse>
 {

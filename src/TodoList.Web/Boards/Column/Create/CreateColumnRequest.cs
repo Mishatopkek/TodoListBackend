@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TodoList.Web.Boards.Column;
+namespace TodoList.Web.Boards.Column.Create;
 
 public class CreateColumnRequest
 {

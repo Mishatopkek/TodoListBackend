@@ -2,7 +2,7 @@
 using FluentValidation;
 using TodoList.Infrastructure.Data.Config;
 
-namespace TodoList.Web.Boards.Column;
+namespace TodoList.Web.Boards.Column.Create;
 
 public class CreateColumnValidator : Validator<CreateColumnRequest>
 {
