@@ -6,12 +6,12 @@ namespace TodoList.Infrastructure.Data.Queries.Board.Column;
 
 public class CreateColumnCommandService(AppDbContext db) : ICreateColumnService
 {
-    public async Task<Ulid> CreateAsync(Ulid boardId, string title, bool showAddCardByDefault)
+    public async Task<Ulid> CreateAsync(Ulid boardId, string title, bool isAlwaysVisibleAddCardButton)
     {
         EntityEntry<Core.BoardAggregate.Column> column = await db.Columns.AddAsync(
             new Core.BoardAggregate.Column
             {
-                BoardId = boardId.ToGuid(), Title = title, ShowAddCardByDefault = showAddCardByDefault
+                BoardId = boardId.ToGuid(), Title = title, IsAlwaysVisibleAddCardButton = isAlwaysVisibleAddCardButton
             });
 
         await db.SaveChangesAsync();

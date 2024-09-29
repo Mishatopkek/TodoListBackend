@@ -7,7 +7,7 @@ public class CreateColumnHandler(ICreateColumnService service) : ICommandHandler
 {
     public async Task<Result<Ulid>> Handle(CreateColumnCommand request, CancellationToken cancellationToken)
     {
-        Ulid id = await service.CreateAsync(request.BoardId, request.Title, request.ShowAddCardByDefault);
+        Ulid id = await service.CreateAsync(request.BoardId, request.Title, request.IsAlwaysVisibleAddCardButton);
         return Result.Success(id);
     }
 }

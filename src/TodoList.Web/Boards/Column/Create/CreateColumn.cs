@@ -23,7 +23,8 @@ public class CreateColumn(IMediator mediator) : Endpoint<CreateColumnRequest, Cr
     {
         JwtUserModel user = User.GetJwtUser();
         Result<Ulid> result =
-            await mediator.Send(new CreateColumnCommand(req.BoardId, req.Title!, req.ShowAddCardByDefault, user.UserId),
+            await mediator.Send(
+                new CreateColumnCommand(req.BoardId, req.Title!, req.IsAlwaysVisibleAddCardButton, user.UserId),
                 ct);
 
         switch (result.Status)

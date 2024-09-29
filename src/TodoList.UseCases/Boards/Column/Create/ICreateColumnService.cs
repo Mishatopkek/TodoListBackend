@@ -2,5 +2,5 @@
 
 public interface ICreateColumnService
 {
-    Task<Ulid> CreateAsync(Ulid boardId, string title, bool showAddCardByDefault);
+    Task<Ulid> CreateAsync(Ulid boardId, string title, bool isAlwaysVisibleAddCardButton);
 }

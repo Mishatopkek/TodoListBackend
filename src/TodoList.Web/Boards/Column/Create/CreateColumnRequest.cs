@@ -8,5 +8,5 @@ public class CreateColumnRequest
 
     [Required] public Ulid BoardId { get; set; }
     [Required] public string? Title { get; set; }
-    public bool ShowAddCardByDefault { get; set; } = false;
+    public bool IsAlwaysVisibleAddCardButton { get; set; } = false;
 }

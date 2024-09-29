@@ -14,6 +14,7 @@ using TodoList.Infrastructure.Data.Queries.Board.Column;
 using TodoList.Infrastructure.Email;
 using TodoList.UseCases.Boards.Column.Create;
 using TodoList.UseCases.Boards.Column.Delete;
+using TodoList.UseCases.Boards.Column.Patch;
 using TodoList.UseCases.Boards.GetByName;
 using TodoList.UseCases.Boards.List;
 using TodoList.UseCases.Cards.List;
@@ -110,6 +111,10 @@ public class AutofacInfrastructureModule : Module
 
         builder.RegisterType<DeleteColumnCommandService>()
             .As<IDeleteColumnService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<PatchColumnCommandService>()
+            .As<IPatchColumnService>()
             .InstancePerLifetimeScope();
     }
 

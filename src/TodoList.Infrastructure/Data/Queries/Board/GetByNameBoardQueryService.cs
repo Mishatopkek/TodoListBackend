@@ -27,7 +27,7 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
                             column.Id.ToUlid(),
                             board.Id.ToUlid(),
                             column.Title,
-                            column.ShowAddCardByDefault,
+                            column.IsAlwaysVisibleAddCardButton,
                             column.Cards.Select(card =>
                                 new CardDTO(
                                     card.Id.ToUlid(),
