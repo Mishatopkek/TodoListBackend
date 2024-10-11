@@ -22,18 +22,20 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
                     board.Name,
                     board.Title,
                     board.User.Name,
-                    board.Columns.Select(column =>
-                        new ColumnDTO(
-                            column.Id.ToUlid(),
-                            board.Id.ToUlid(),
-                            column.Title,
-                            column.IsAlwaysVisibleAddCardButton,
-                            column.Cards.Select(card =>
-                                new CardDTO(
-                                    card.Id.ToUlid(),
-                                    column.Id.ToUlid(),
-                                    board.Id.ToUlid(),
-                                    card.Title))))))
+                    board.Columns
+                        .OrderBy(column => column.Order)
+                        .Select(column =>
+                            new ColumnDTO(
+                                column.Id.ToUlid(),
+                                board.Id.ToUlid(),
+                                column.Title,
+                                column.IsAlwaysVisibleAddCardButton,
+                                column.Cards.Select(card =>
+                                    new CardDTO(
+                                        card.Id.ToUlid(),
+                                        column.Id.ToUlid(),
+                                        board.Id.ToUlid(),
+                                        card.Title))))))
             .FirstOrDefaultAsync();
         return response;
     }

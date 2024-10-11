@@ -9,7 +9,8 @@ public class Column : EntityBase<Guid>, IAggregateRoot
     {
     }
 
-    public Column(Guid boardId, Board board, string title, bool isAlwaysVisibleAddCardButton, List<Card> cards)
+    public Column(Guid boardId, Board board, string title, bool isAlwaysVisibleAddCardButton, List<Card> cards,
+        int order)
     {
         BoardId = Guard.Against.Null(boardId, nameof(boardId));
         Board = Guard.Against.Null(board, nameof(board));
@@ -17,6 +18,7 @@ public class Column : EntityBase<Guid>, IAggregateRoot
         IsAlwaysVisibleAddCardButton =
             Guard.Against.Null(isAlwaysVisibleAddCardButton, nameof(isAlwaysVisibleAddCardButton));
         Cards = Guard.Against.Null(cards, nameof(cards));
+        Order = Guard.Against.Default(0, nameof(order));
     }
 
     public Guid BoardId { get; set; } = Guid.Empty;
@@ -25,4 +27,5 @@ public class Column : EntityBase<Guid>, IAggregateRoot
     public string Title { get; set; } = null!;
     public bool IsAlwaysVisibleAddCardButton { get; set; }
     public List<Card> Cards { get; set; } = null!;
+    public int Order { get; set; }
 }
