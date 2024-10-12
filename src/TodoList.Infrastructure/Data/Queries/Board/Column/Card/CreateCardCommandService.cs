@@ -13,6 +13,7 @@ public class CreateCardCommandService(AppDbContext db) : ICreateCardService
             ColumnId = columnId.ToGuid(), Title = title
         });
 
+        await db.SaveChangesAsync();
         return card.Entity.Id.ToUlid();
     }
 }
