@@ -6,6 +6,7 @@
                                                 <OutputType>Exe</OutputType>
                                                 <WebProjectMode>true</WebProjectMode>
                                                 <GenerateDocumentationFile>True</GenerateDocumentationFile>
+                                                <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
                         </PropertyGroup>
 
                         <ItemGroup>
@@ -28,6 +29,12 @@
                         <ItemGroup>
                                                 <ProjectReference Include="..\TodoList.Infrastructure\TodoList.Infrastructure.csproj"/>
                                                 <ProjectReference Include="..\TodoList.UseCases\TodoList.UseCases.csproj"/>
+                        </ItemGroup>
+
+                        <ItemGroup>
+                                                <Content Include="..\..\.dockerignore">
+                                                                        <Link>.dockerignore</Link>
+                                                </Content>
                         </ItemGroup>
 
 </Project>
