@@ -11,11 +11,11 @@ COPY ["src/TodoList.Web/TodoList.Web.csproj", "src/TodoList.Web/"]
 COPY ["src/TodoList.Core/TodoList.Core.csproj", "src/TodoList.Core/"]
 COPY ["src/TodoList.Infrastructure/TodoList.Infrastructure.csproj", "src/TodoList.Infrastructure/"]
 COPY ["src/TodoList.UseCases/TodoList.UseCases.csproj", "src/TodoList.UseCases/"]
+RUN cat /src/TodoList.Web/TodoList.Web.csproj
 RUN dotnet restore "src/TodoList.Web/TodoList.Web.csproj"
 COPY . .
 WORKDIR "/src/src/TodoList.Web"
 RUN dotnet build "TodoList.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
-RUN cat /src/TodoList.Web/TodoList.Web.csproj
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
