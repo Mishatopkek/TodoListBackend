@@ -15,6 +15,7 @@ RUN dotnet restore "src/TodoList.Web/TodoList.Web.csproj"
 COPY . .
 WORKDIR "/src/src/TodoList.Web"
 RUN dotnet build "TodoList.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN cat /src/TodoList.Web/TodoList.Web.csproj
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
