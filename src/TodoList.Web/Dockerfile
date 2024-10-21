@@ -21,6 +21,8 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "TodoList.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+ARG PASSWORD_SALT_SECRET
+ARG JWT_SECRET
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TodoList.Web.dll"]
