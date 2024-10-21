@@ -7,6 +7,7 @@
                                                 <WebProjectMode>true</WebProjectMode>
                                                 <GenerateDocumentationFile>True</GenerateDocumentationFile>
                                                 <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+                                                <TargetFramework>net8.0</TargetFramework>
                         </PropertyGroup>
 
                         <ItemGroup>

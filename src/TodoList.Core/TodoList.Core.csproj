@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+                        <PropertyGroup>
+                                                <TargetFramework>net8.0</TargetFramework>
+                        </PropertyGroup>
                         <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.1.3"/>
 
                         <ItemGroup>
