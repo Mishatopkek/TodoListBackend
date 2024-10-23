@@ -5,9 +5,9 @@ namespace TodoList.Infrastructure.Data;
 
 public static class AppDbContextExtensions
 {
-    public static void AddApplicationDbContext(this IServiceCollection services, string password)
+    public static void AddApplicationDbContext(this IServiceCollection services, string connection)
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql($"Host=localhost;Database=todolist;Username=postgres;Password={password};"));
+            options.UseNpgsql(connection));
     }
 }
