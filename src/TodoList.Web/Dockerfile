@@ -23,6 +23,7 @@ RUN dotnet publish "TodoList.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 FROM base AS final
 ARG PASSWORD_SALT_SECRET
 ARG JWT_SECRET
+ARG DEFAULT_CONNECTION
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TodoList.Web.dll"]
