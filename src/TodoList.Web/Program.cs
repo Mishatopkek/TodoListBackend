@@ -29,6 +29,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 });
 
 var connectionString = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION");
+Console.WriteLine("CHECK THIS OUT!: " + connectionString);
 Guard.Against.Null(connectionString);
 builder.Services.AddApplicationDbContext(connectionString);
 
