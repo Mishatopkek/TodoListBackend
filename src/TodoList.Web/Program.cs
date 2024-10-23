@@ -28,7 +28,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 
-var dbPassword = Environment.GetEnvironmentVariable("DbPassword");
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 Guard.Against.Null(dbPassword);
 builder.Services.AddApplicationDbContext(dbPassword);
 
