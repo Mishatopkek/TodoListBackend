@@ -28,7 +28,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION");
 Guard.Against.Null(connectionString);
 builder.Services.AddApplicationDbContext(connectionString);
 
