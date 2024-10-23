@@ -28,9 +28,9 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Guard.Against.Null(connectionString);
-builder.Services.AddApplicationDbContext(connectionString);
+var dbPassword = Environment.GetEnvironmentVariable("DbPassword");
+Guard.Against.Null(dbPassword);
+builder.Services.AddApplicationDbContext(dbPassword);
 
 builder.Services.AddFastEndpoints();
 builder.Services.SwaggerDocument(o =>
