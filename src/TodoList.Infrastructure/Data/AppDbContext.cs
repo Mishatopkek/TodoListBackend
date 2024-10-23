@@ -2,7 +2,6 @@
 using Ardalis.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using TodoList.Core.BoardAggregate;
-using TodoList.Core.ContributorAggregate;
 using TodoList.Core.UserAggregate;
 
 namespace TodoList.Infrastructure.Data;
@@ -12,7 +11,6 @@ public class AppDbContext(
     IDomainEventDispatcher? dispatcher)
     : DbContext(options)
 {
-    public DbSet<Contributor> Contributors => Set<Contributor>();
     public DbSet<Board> Boards => Set<Board>();
     public DbSet<Card> Cards => Set<Card>();
     public DbSet<CardDetails> CardsDetail => Set<CardDetails>();

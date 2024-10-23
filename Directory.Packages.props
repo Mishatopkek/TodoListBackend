@@ -35,12 +35,12 @@
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10"/>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10"/>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10"/>
-        <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10"/>
         <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2"/>
         <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.1.2"/>
         <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.1.2"/>
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1"/>
         <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6"/>
+        <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10"/>
         <PackageVersion Include="NSubstitute" Version="5.1.0"/>
         <PackageVersion Include="ReportGenerator" Version="5.3.11"/>
         <PackageVersion Include="RestSharp" Version="112.1.0"/>

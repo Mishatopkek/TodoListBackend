@@ -7,6 +7,7 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TodoList.Core;
@@ -116,9 +117,9 @@ static void SeedDatabase(WebApplication app)
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        //                    context.Database.Migrate();
+        context.Database.Migrate();
         context.Database.EnsureCreated();
-        SeedData.Initialize(services);
+        // SeedData.Initialize(services);
     }
     catch (Exception ex)
     {
