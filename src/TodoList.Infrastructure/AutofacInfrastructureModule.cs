@@ -12,8 +12,10 @@ using TodoList.Infrastructure.Data.Queries;
 using TodoList.Infrastructure.Data.Queries.Board;
 using TodoList.Infrastructure.Data.Queries.Board.Column;
 using TodoList.Infrastructure.Data.Queries.Board.Column.Card;
+using TodoList.Infrastructure.Data.Queries.Board.Column.Card.Details;
 using TodoList.Infrastructure.Email;
 using TodoList.UseCases.Boards.Column.Card.Create;
+using TodoList.UseCases.Boards.Column.Card.Details.GetByIdCard;
 using TodoList.UseCases.Boards.Column.Card.Patch;
 using TodoList.UseCases.Boards.Column.Create;
 using TodoList.UseCases.Boards.Column.Delete;
@@ -131,6 +133,10 @@ public class AutofacInfrastructureModule : Module
 
         builder.RegisterType<PatchCardCommandService>()
             .As<IPatchCardService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<GetByIdCardQueryService>()
+            .As<IGetByIdCardDetailsService>()
             .InstancePerLifetimeScope();
     }
 

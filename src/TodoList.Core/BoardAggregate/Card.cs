@@ -9,19 +9,17 @@ public class Card : EntityBase<Guid>, IAggregateRoot
     {
     }
 
-    public Card(Guid columnId, Column column, string name, CardDetails details)
+    public Card(Guid columnId, Column column, string name)
     {
         ColumnId = Guard.Against.Null(columnId, nameof(columnId));
         Column = Guard.Against.Null(column, nameof(column));
         Title = Guard.Against.NullOrEmpty(name, nameof(name));
-        Details = Guard.Against.Null(details, nameof(details));
     }
 
     public Guid ColumnId { get; set; } = Guid.Empty;
     public Column Column { get; set; } = null!;
 
     public string Title { get; set; } = null!;
-
-    public Guid CardDetailsId { get; set; } = Guid.Empty;
-    public CardDetails Details { get; set; } = null!;
+    public string? Description { get; set; }
+    public List<Comment> Comments { get; set; } = [];
 }

@@ -13,7 +13,6 @@ public class AppDbContext(
 {
     public DbSet<Board> Boards => Set<Board>();
     public DbSet<Card> Cards => Set<Card>();
-    public DbSet<CardDetails> CardsDetail => Set<CardDetails>();
     public DbSet<Column> Columns => Set<Column>();
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<User> Users => Set<User>();
