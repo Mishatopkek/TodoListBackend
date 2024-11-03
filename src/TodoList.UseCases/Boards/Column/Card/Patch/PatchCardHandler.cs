@@ -9,7 +9,7 @@ public class PatchCardHandler(IPatchCardService service) : ICommandHandler<Patch
     {
         try
         {
-            await service.PatchAsync(request.CardId, request.Title);
+            await service.PatchAsync(request.CardId, request.Title, request.Description);
         }
         catch (Exception e)
         {

@@ -2,5 +2,5 @@
 
 public interface IPatchCardService
 {
-    Task PatchAsync(Ulid cardId, string? title);
+    Task PatchAsync(Ulid cardId, string? title, string? description);
 }

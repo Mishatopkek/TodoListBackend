@@ -12,8 +12,8 @@ using TodoList.Infrastructure.Data;
 namespace TodoList.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241031181519_AddDescriptionForCards")]
-    partial class AddDescriptionForCards
+    [Migration("20241103131308_AddCardDescription")]
+    partial class AddCardDescription
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

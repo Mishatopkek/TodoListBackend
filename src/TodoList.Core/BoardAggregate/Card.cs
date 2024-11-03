@@ -9,11 +9,12 @@ public class Card : EntityBase<Guid>, IAggregateRoot
     {
     }
 
-    public Card(Guid columnId, Column column, string name)
+    public Card(Guid columnId, Column column, string title, string? description)
     {
         ColumnId = Guard.Against.Null(columnId, nameof(columnId));
         Column = Guard.Against.Null(column, nameof(column));
-        Title = Guard.Against.NullOrEmpty(name, nameof(name));
+        Title = Guard.Against.NullOrEmpty(title, nameof(title));
+        Description = Guard.Against.NullOrEmpty(description, nameof(description));
     }
 
     public Guid ColumnId { get; set; } = Guid.Empty;

@@ -6,11 +6,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodoList.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDescriptionForCards : Migration
+    public partial class AddCardDescription : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "CardDetailsId",
+                table: "Cards");
+
             migrationBuilder.AddColumn<string>(
                 name: "Description",
                 table: "Cards",

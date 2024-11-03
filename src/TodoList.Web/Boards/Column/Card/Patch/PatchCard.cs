@@ -20,7 +20,7 @@ public class PatchCard(IMediator mediator) : Endpoint<PatchCardRequest>
     public override async Task HandleAsync(PatchCardRequest req, CancellationToken ct)
     {
         Result<bool> response =
-            await mediator.Send(new PatchCardCommand(req.CardId, req.Title), ct);
+            await mediator.Send(new PatchCardCommand(req.CardId, req.Title, req.Description), ct);
 
         if (response.IsSuccess)
         {
