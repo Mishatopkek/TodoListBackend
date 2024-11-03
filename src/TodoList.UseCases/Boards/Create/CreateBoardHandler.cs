@@ -25,6 +25,7 @@ public class CreateBoardHandler(IRepository<Board> repository) : ICommandHandler
 
         Board board = new()
         {
+            Id = Ulid.NewUlid().ToGuid(),
             Name = request.Name,
             Title = request.Title,
             UserId = request.UserId.ToGuid(),

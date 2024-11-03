@@ -24,7 +24,7 @@ public class SignUpUserHandler(IRepository<User> repository, IPasswordService pa
             }
 
             // Create a new user and add to the database
-            User newUser = CreateUser(request);
+            User newUser = GenerateUser(request);
             User createdUser = await repository.AddAsync(newUser, cancellationToken);
 
             // Generate and return the JWT token
@@ -62,7 +62,7 @@ public class SignUpUserHandler(IRepository<User> repository, IPasswordService pa
         return Result.Invalid(errors);
     }
 
-    private User CreateUser(SignUpUserCommand request)
+    private User GenerateUser(SignUpUserCommand request)
     {
         var id = Ulid.NewUlid().ToGuid();
         var passwordHash = passwordService.GenerateHash(request.Password, out var salt);

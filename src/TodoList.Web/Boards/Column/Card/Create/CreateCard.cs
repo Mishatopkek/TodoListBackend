@@ -19,7 +19,7 @@ public class CreateCard(IMediator mediator) : Endpoint<CreateCardRequest, Create
 
     public override async Task HandleAsync(CreateCardRequest req, CancellationToken ct)
     {
-        Result<Ulid> response = await mediator.Send(new CreateCardCommand(req.ColumnId, req.Title));
+        Result<Ulid> response = await mediator.Send(new CreateCardCommand(req.ColumnId, req.Title), ct);
 
         if (response.IsSuccess)
         {

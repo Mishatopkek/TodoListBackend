@@ -10,7 +10,7 @@ public class CreateCardCommandService(AppDbContext db) : ICreateCardService
     {
         EntityEntry<Core.BoardAggregate.Card> card = await db.Cards.AddAsync(new Core.BoardAggregate.Card
         {
-            ColumnId = columnId.ToGuid(), Title = title
+            Id = Ulid.NewUlid().ToGuid(), ColumnId = columnId.ToGuid(), Title = title
         });
 
         await db.SaveChangesAsync();

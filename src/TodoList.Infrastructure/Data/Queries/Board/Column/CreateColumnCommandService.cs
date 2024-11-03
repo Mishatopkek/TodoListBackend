@@ -11,7 +11,10 @@ public class CreateColumnCommandService(AppDbContext db) : ICreateColumnService
         EntityEntry<Core.BoardAggregate.Column> column = await db.Columns.AddAsync(
             new Core.BoardAggregate.Column
             {
-                BoardId = boardId.ToGuid(), Title = title, IsAlwaysVisibleAddCardButton = isAlwaysVisibleAddCardButton
+                Id = Ulid.NewUlid().ToGuid(),
+                BoardId = boardId.ToGuid(),
+                Title = title,
+                IsAlwaysVisibleAddCardButton = isAlwaysVisibleAddCardButton
             });
 
         await db.SaveChangesAsync();
