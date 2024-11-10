@@ -14,6 +14,7 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
             .Include(board => board.User)
             .Include(board => board.Columns)
             .ThenInclude(column => column.Cards)
+            .AsNoTracking()
             .AsSplitQuery()
             .Where(board => board.Name == name)
             .Select(board =>
@@ -30,12 +31,14 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
                                 board.Id.ToUlid(),
                                 column.Title,
                                 column.IsAlwaysVisibleAddCardButton,
-                                column.Cards.Select(card =>
-                                    new CardDTO(
-                                        card.Id.ToUlid(),
-                                        column.Id.ToUlid(),
-                                        board.Id.ToUlid(),
-                                        card.Title))))))
+                                column.Cards
+                                    .OrderBy(card => card.Order)
+                                    .Select(card =>
+                                        new CardDTO(
+                                            card.Id.ToUlid(),
+                                            column.Id.ToUlid(),
+                                            board.Id.ToUlid(),
+                                            card.Title))))))
             .FirstOrDefaultAsync();
         return response;
     }

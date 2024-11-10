@@ -12,6 +12,7 @@ public class GetByIdCardQueryService(AppDbContext db) : IGetByIdCardDetailsServi
         CardDetailsDTO cardDetails = await db.Cards
             .Include(card => card.Comments)
             .Include(card => card.Column)
+            .AsNoTracking()
             .Where(card => card.Id == id.ToGuid())
             .Select(card =>
                 new CardDetailsDTO(
