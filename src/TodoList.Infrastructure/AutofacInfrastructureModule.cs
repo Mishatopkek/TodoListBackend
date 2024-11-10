@@ -16,6 +16,7 @@ using TodoList.Infrastructure.Data.Queries.Board.Column.Card.Details;
 using TodoList.Infrastructure.Email;
 using TodoList.UseCases.Boards.Column.Card.Create;
 using TodoList.UseCases.Boards.Column.Card.Details.GetByIdCard;
+using TodoList.UseCases.Boards.Column.Card.Order;
 using TodoList.UseCases.Boards.Column.Card.Patch;
 using TodoList.UseCases.Boards.Column.Create;
 using TodoList.UseCases.Boards.Column.Delete;
@@ -137,6 +138,10 @@ public class AutofacInfrastructureModule : Module
 
         builder.RegisterType<GetByIdCardQueryService>()
             .As<IGetByIdCardDetailsService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<OrderCardCommandService>()
+            .As<IOrderCardService>()
             .InstancePerLifetimeScope();
     }
 

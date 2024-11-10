@@ -31,9 +31,9 @@ public class CreateBoardHandler(IRepository<Board> repository) : ICommandHandler
             UserId = request.UserId.ToGuid(),
             Columns =
             [
-                new Core.BoardAggregate.Column {Title = "Todo", IsAlwaysVisibleAddCardButton = true, Order = 0},
-                new Core.BoardAggregate.Column {Title = "Doing", Order = 1},
-                new Core.BoardAggregate.Column {Title = "Done", Order = 2}
+                new Core.BoardAggregate.Column {Title = "Todo", IsAlwaysVisibleAddCardButton = true, Order = 1},
+                new Core.BoardAggregate.Column {Title = "Doing", Order = 2},
+                new Core.BoardAggregate.Column {Title = "Done", Order = 3}
             ]
         };
 

@@ -22,5 +22,6 @@ public class Card : EntityBase<Guid>, IAggregateRoot
 
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
+    public int Order { get; set; }
     public List<Comment> Comments { get; set; } = [];
 }
