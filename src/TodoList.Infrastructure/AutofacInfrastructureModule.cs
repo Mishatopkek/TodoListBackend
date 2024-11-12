@@ -12,8 +12,10 @@ using TodoList.Infrastructure.Data.Queries;
 using TodoList.Infrastructure.Data.Queries.Board;
 using TodoList.Infrastructure.Data.Queries.Board.Column;
 using TodoList.Infrastructure.Data.Queries.Board.Column.Card;
+using TodoList.Infrastructure.Data.Queries.Board.Column.Card.Comment;
 using TodoList.Infrastructure.Data.Queries.Board.Column.Card.Details;
 using TodoList.Infrastructure.Email;
+using TodoList.UseCases.Boards.Column.Card.Comment.Create;
 using TodoList.UseCases.Boards.Column.Card.Create;
 using TodoList.UseCases.Boards.Column.Card.Details.GetByIdCard;
 using TodoList.UseCases.Boards.Column.Card.Order;
@@ -142,6 +144,10 @@ public class AutofacInfrastructureModule : Module
 
         builder.RegisterType<OrderCardCommandService>()
             .As<IOrderCardService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<CreateCommentCommandService>()
+            .As<ICreateCommentService>()
             .InstancePerLifetimeScope();
     }
 

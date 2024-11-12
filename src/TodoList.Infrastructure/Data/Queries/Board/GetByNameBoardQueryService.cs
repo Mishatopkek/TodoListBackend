@@ -14,6 +14,7 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
             .Include(board => board.User)
             .Include(board => board.Columns)
             .ThenInclude(column => column.Cards)
+            .ThenInclude(card => card.Comments)
             .AsNoTracking()
             .AsSplitQuery()
             .Where(board => board.Name == name)
@@ -38,7 +39,18 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
                                             card.Id.ToUlid(),
                                             column.Id.ToUlid(),
                                             board.Id.ToUlid(),
-                                            card.Title))))))
+                                            card.Title,
+                                            card.Comments.OrderByDescending(comment => comment.Date)
+                                                .Select(comment =>
+                                                    new CommentDTO(
+                                                        comment.Id.ToUlid(),
+                                                        card.Id.ToUlid(),
+                                                        column.Id.ToUlid(),
+                                                        board.Id.ToUlid(),
+                                                        comment.UserId.ToUlid(),
+                                                        comment.Text,
+                                                        comment.Date
+                                                    ))))))))
             .FirstOrDefaultAsync();
         return response;
     }
