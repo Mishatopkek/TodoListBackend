@@ -3,4 +3,4 @@ using Ardalis.SharedKernel;
 
 namespace TodoList.UseCases.Boards.List;
 
-public record ListBoardsQuery(int? Skip, int? Take) : IQuery<Result<IEnumerable<BoardDTO>>>;
+public record ListBoardsQuery(Ulid UserId) : IQuery<Result<IEnumerable<BoardDTO>>>;

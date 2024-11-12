@@ -9,7 +9,7 @@ public class ListBoardsHandler(IListBoardQueryService query)
     public async Task<Result<IEnumerable<BoardDTO>>> Handle(ListBoardsQuery request,
         CancellationToken cancellationToken)
     {
-        IEnumerable<BoardDTO> result = await query.ListAsync();
+        IEnumerable<BoardDTO> result = await query.ListAsync(request.UserId);
 
         return Result.Success(result);
     }
