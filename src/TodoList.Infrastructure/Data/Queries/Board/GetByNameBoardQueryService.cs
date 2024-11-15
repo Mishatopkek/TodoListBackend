@@ -7,8 +7,18 @@ namespace TodoList.Infrastructure.Data.Queries.Board;
 
 public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardService
 {
-    public Task<BoardDTO?> GetBoardAsync(string name)
+    public async Task<BoardDTO?> GetBoardAsync(string userName, string name, Ulid requestUserId)
     {
+        Guid boardUserId = await db.Boards
+            .Include(x => x.User)
+            .Where(board => board.User.Name == userName && board.Name == name)
+            .Select(x => x.UserId)
+            .FirstOrDefaultAsync();
+        if (boardUserId != requestUserId.ToGuid())
+        {
+            throw new UnauthorizedAccessException("User tried to access to a board that does not have access to them.");
+        }
+
         Task<BoardDTO?> response = db
             .Boards
             .Include(board => board.User)
@@ -17,7 +27,7 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
             .ThenInclude(card => card.Comments)
             .AsNoTracking()
             .AsSplitQuery()
-            .Where(board => board.Name == name)
+            .Where(board => board.Name == name && board.User.Name == userName)
             .Select(board =>
                 new BoardDTO(
                     board.Id.ToUlid(),
@@ -52,6 +62,6 @@ public class GetByNameBoardQueryService(AppDbContext db) : IGetByNameBoardServic
                                                         comment.Date
                                                     ))))))))
             .FirstOrDefaultAsync();
-        return response;
+        return await response;
     }
 }

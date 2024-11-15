@@ -2,5 +2,5 @@
 
 public interface IGetByNameBoardService
 {
-    Task<BoardDTO?> GetBoardAsync(string name);
+    Task<BoardDTO?> GetBoardAsync(string userName, string name, Ulid requestUserId);
 }

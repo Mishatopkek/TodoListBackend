@@ -10,8 +10,20 @@ public class GetByNameBoardHandler(IGetByNameBoardService query) :
 
     public async Task<Result<BoardDTO>> Handle(GetByNameBoardQuery request, CancellationToken cancellationToken)
     {
-        BoardDTO? board = await query.GetBoardAsync(request.Name);
-
-        return board == null ? Result.Error(BoardExist) : Result.Success(board);
+        try
+        {
+            BoardDTO? board = await query.GetBoardAsync(request.UserName, request.Name, request.UserId);
+            return board == null ? Result.Error(BoardExist) : Result.Success(board);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            Console.WriteLine(e);
+            return Result.Forbidden("You are not authorized to access this board");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return Result.Error(e.Message);
+        }
     }
 }
