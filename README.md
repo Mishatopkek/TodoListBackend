@@ -104,8 +104,8 @@ DEFAULT_CONNECTION=Host=localhost;Database=TodoList;Username=postgres;Password=y
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/TodoList-Backend.git
-cd TodoList-Backend
+git clone https://github.com/Mishatopkek/TodoListBackend.git
+cd TodoListBackend
 ```
 
 2. Restore dependencies:
