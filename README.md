@@ -1,6 +1,6 @@
 # TodoList Backend
 
-![TodoList Banner](link_to_image) <!-- Add image -->
+![TodoList Banner](https://github.com/user-attachments/assets/4ce11f9c-fba9-46f3-92d4-cebf38233f48)
 
 ---
 
@@ -30,16 +30,17 @@ leveraging modern development practices and technologies.
 Here are some visuals showcasing the features:
 
 Login, Register, Logout:
-![login](link_to_image) <!-- Add image -->
+![Login](https://github.com/user-attachments/assets/ce903754-5d8c-413b-ae17-463643d3d8eb)
 
 Drag-and-Drop Columns and Cards:
-![D&D](link_to_image) <!-- Add image -->
+![D&D](https://github.com/user-attachments/assets/71e32267-ed51-4709-b568-b0f727503561)
+
 
 CRUD of Columns and Cards:
-![CRUD](link_to_image) <!-- Add image -->
+![CRUD](https://github.com/user-attachments/assets/c3530c91-7c6f-419e-9632-6e7d91369a03)
 
 Add Descriptions and Comments:
-![CardDetails](link_to_image) <!-- Add image -->
+![CardDetails](https://github.com/user-attachments/assets/1a3d86ad-76c4-4c59-810e-4e061a56dcd8)
 
 ---
 
